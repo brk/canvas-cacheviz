@@ -1,0 +1,10 @@
+body {
+  margin:0;
+  padding:0;
+  -khtml-user-select:none;
+  -moz-user-select:none;
+}
+
+#my-canvas {
+  border:1px solid silver;
+}
