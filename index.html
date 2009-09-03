@@ -16,16 +16,17 @@
     <canvas id="cache-canvas"
 	    width="400"
 	    height="400"
-            />
-    <!--
-      function (a, w, h) {
-        for (i = 0; i < h; i++) {
-          for (j = 0; j < w; j++) {
-            a.touch(i,j);
-          }
-        }
-      }
-    -->
+            ></canvas>
+    <hr />
+    <textarea rows="24" cols="80">
+function (a, w, h) {
+  for (i = 0; i &lt; h; i++) {
+    for (j = 0; j &lt; w; j++) {
+      a.touch(i,j);
+    }
+  }
+}
+    </textarea>
     <div id="error" style="margin-bottom:20px;"></div>
 
   </body>
