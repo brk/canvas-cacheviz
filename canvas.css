@@ -1,12 +1,19 @@
 body {
   margin:0;
   padding:0;
+}
+
+canvas {
   -khtml-user-select:none;
   -moz-user-select:none;
 }
 
-#my-canvas {
+#store-canvas {
   border:1px solid silver;
+}
+
+#cache-canvas {
+  border:1px solid black;
 }
 
 #code-textarea {
