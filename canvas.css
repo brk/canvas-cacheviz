@@ -8,3 +8,7 @@ body {
 #my-canvas {
   border:1px solid silver;
 }
+
+#code-textarea {
+	font-family: monospace;
+}
