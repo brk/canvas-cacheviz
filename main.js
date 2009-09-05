@@ -13,12 +13,17 @@ function make_cache() {
   return cache;
 }
 
-function main() {
-
+function make_store() {
   window.store = {};
   store.canvas = document.getElementById("store-canvas");
   store.context = store.canvas.getContext("2d");
+  
+  store.hits = { x: [], y: [] };
+
+  return store;
 }
+
+function main() {}
 
 function log(str) {
   $('#error').append(str);
@@ -39,20 +44,27 @@ function run() {
   cache.context.fillStyle = "rgb(240, 240, 240)";
   cache.context.fillRect(0,0,cache.canvas.width, cache.canvas.height);
 
+  window.store = make_store();
+  store.context.fillStyle = "rgb(240, 240, 240)";
+  store.context.fillRect(0,0,store.canvas.width, store.canvas.height);
+  
   var ftxt = $("#code-textarea")[0].value;
   log(ftxt);
-  var f = eval(ftxt);
+  eval("var f = " + ftxt);
 
   var a = {
     touch: function(i,j) {
       cache_touch(cache.canvas.width * i + j, i, j);
+      store_touch(i, j);
     },
 
     done: function() {
       cache_done();
+      store_done();
       log("done");
     }
   };
+  
   log('pre');
   f(a, 200, 200);
   log('fin');

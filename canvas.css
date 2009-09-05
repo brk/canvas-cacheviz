@@ -8,6 +8,10 @@ canvas {
   -moz-user-select:none;
 }
 
+.centered {
+  text-align: center;
+}
+
 #store-canvas {
   border:1px solid silver;
 }
@@ -16,6 +20,6 @@ canvas {
   border:1px solid black;
 }
 
-#code-textarea {
+.console {
 	font-family: monospace;
 }

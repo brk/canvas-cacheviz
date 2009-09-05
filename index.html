@@ -24,7 +24,7 @@
             height="200"
             ></canvas>
     <hr />
-    <textarea rows="24" cols="80" id="code-textarea">
+    <textarea rows="24" cols="80" id="code-textarea" class="console">
 function (a, w, h) {
   for (i = 0; i &lt; h; i++) {
     for (j = 0; j &lt; w; j++) {
@@ -35,8 +35,8 @@ function (a, w, h) {
   a.done();
 }
     </textarea>
-    <input type="button" value="Run" onclick="window.animate = false; run();"></input>
-    <input type="button" value="Animate" onclick="window.animate = true; run();"></input>
+    <button onclick="window.animate = false; run();">Run</button>
+    <button onclick="window.animate = true; run();">Animate</button>
     <div id="error" style="margin-bottom:20px;">
       Displaying cache misses only, for now...<br>
     </div>
