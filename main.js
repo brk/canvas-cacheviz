@@ -10,6 +10,7 @@ function make_cache() {
   cache.replace_row = 0;
   cache.misses = { x: [], y: [] };
   cache.hits   = { x: [], y: [] };
+  cache.was_hit = [];
   return cache;
 }
 
@@ -67,5 +68,6 @@ function run() {
   
   log('pre');
   f(a, 200, 200);
+  a.done();
   log('fin');
 }

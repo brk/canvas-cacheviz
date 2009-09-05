@@ -14,15 +14,30 @@
   </head>
   <body onload="main();">
 
-    <canvas id="store-canvas"
-	    width="200"
-	    height="200"
-            ></canvas>
-
-    <canvas id="cache-canvas"
-	    width="200"
-            height="200"
-            ></canvas>
+    <table>
+      <tr>
+        <td>Memory Touches</td>
+        <td>Cache Hits (green) / Misses (red)</td>
+      </tr>
+      <tr>
+        <td>
+          <canvas id="store-canvas"
+                  width="200"
+                  height="200"
+                  ></canvas>
+        </td>
+        <td>
+          <canvas id="cache-canvas"
+                  width="200"
+                  height="200"
+                  ></canvas>
+        </td>
+      </tr>
+      <tr>
+        <td>blue = column, green = row</td>
+        <td></td>
+      </tr>
+    </table>
     <hr />
     <textarea rows="24" cols="80" id="code-textarea" class="console">
 function (a, w, h) {
@@ -31,8 +46,6 @@ function (a, w, h) {
       a.touch(i,j);
     }
   }
-
-  a.done();
 }
     </textarea>
     <button onclick="window.animate = false; run();">Run</button>

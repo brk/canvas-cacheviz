@@ -1,5 +1,5 @@
 var cache_row_size = 64; // bytes
-var cache_num_rows = 16; // rows
+var cache_num_rows = 32; // rows
 var element_size = 4; // bytes
 
 // cache stores memory indices converted to logical row numbers
@@ -32,32 +32,70 @@ function cache_touch(e, x, y) {
   if (cache_contains(e)) {
     cache.hits.x.push(x);
     cache.hits.y.push(y);
+    cache.was_hit.push(true);
   } else {
-
   //  log('cache miss, pullin row ' + index_to_row(e*element_size) + '; ' + x + ', ' +y);
     cache.misses.x.push(x);
     cache.misses.y.push(y);
+    cache.was_hit.push(false);
   }
 }
 
-function cache_draw_next_miss() {
-  if (cache_anim_i--) {
-    var i = cache.misses.x.length - cache_anim_i - 1;
-    cache.context.fillRect(cache.misses.y[i], cache.misses.x[i], 1,1);
-  } else {
-    clearInterval(window.cache_anim_interval);
-  }
+function cache_draw_miss(m) {
+  var y = cache.misses.y[m];
+  var x = cache.misses.x[m];
+  cache.context.fillRect(y, x, 1,1);
+}
+
+function cache_draw_hit(h) {
+  var y = cache.hits.y[h];
+  var x = cache.hits.x[h];
+  cache.context.fillRect(y, x, 1,1);
 }
 
 function cache_done() {
+  window.cache_renderer = {
+    reset: function() {
+      this.i = 0; // memory touch index
+      this.m = 0;
+      this.h = 0;
+      this.touches = cache.misses.x.length + cache.hits.x.length;
+      this.missStyle = "rgb(200, 0, 0)";
+      this.hitStyle = "rgb(220, 250, 220)"
+    },
+    can_step: function() { return this.i < this.touches; },
+    step: function() {
+      if (!this.can_step()) { return; }
+
+      if (cache.was_hit[this.i++]) {
+        cache.context.fillStyle = this.hitStyle;
+        cache_draw_hit(this.h++);
+      } else {
+        cache.context.fillStyle = this.missStyle;
+        cache_draw_miss(this.m++);
+      }
+    },
+    draw_oneshot: function() { while (this.can_step()) { this.step(); } },
+    draw_animated: function() {
+      this.cache_anim_interval = setInterval('cache_renderer.animate_steps()', 15);
+    },
+    animate_steps: function() {
+      if (this.can_step()) {
+        this.step();
+      } else {
+        this.stop_animation();
+      }
+    },
+    stop_animation: function() { clearInterval(this.cache_anim_interval); }
+  };
+
+  cache_renderer.reset();
+
   cache.context.fillStyle = "rgb(200, 0, 0)";
-  var i = cache.misses.x.length;
-  if (!window.animate) {
-    while(i--) {
-      cache.context.fillRect(cache.misses.y[i], cache.misses.x[i], 1,1);
-    }
+
+  if (window.animate) {
+    cache_renderer.draw_animated();
   } else {
-    window.cache_anim_i = i;
-    window.cache_anim_interval = setInterval("cache_draw_next_miss()", 15);
+    cache_renderer.draw_oneshot();
   }
 }
