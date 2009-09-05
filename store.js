@@ -24,12 +24,14 @@ function store_done() {
     while(i--) {
       // black-to-white index
       var r = Math.floor(255 * ( i / store.hits.x.length));
+      store.context.fillStyle = rgbstr(r, r, r);
+      //
       // row number
-      var g = Math.floor((i/200) * (255/200));
+      //var g = Math.floor((i/200) * (255/200));
       // column number
-      var colb = Math.floor((i % 200)*(255/200));
+      //var colb = Math.floor((i % 200)*(255/200));
       //store.context.fillStyle = rgbstr(r, g, 0);
-      store.context.fillStyle = rgbstr(0, g, colb);
+      //store.context.fillStyle = rgbstr(0, g, colb);
     //  store.context.fillStyle = "rgb(200,0,0)";
       store.context.fillRect(store.hits.y[i], store.hits.x[i], 1,1);
     }

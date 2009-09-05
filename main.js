@@ -69,5 +69,9 @@ function run() {
   log('pre');
   f(a, 200, 200);
   a.done();
-  log('fin');
+  var m = cache.misses.x.length;
+  var h = cache.hits.x.length;
+  log("cache misses: " + m + " ("+(100*(m/(m+h)))+"%)");
+  log("cache hits: "   + h + " ("+(100*(h/(m+h)))+"%)");
+  log("total: " + (m+h) + " memory accesses");
 }

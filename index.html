@@ -34,11 +34,14 @@
         </td>
       </tr>
       <tr>
-        <td>blue = column, green = row</td>
+        <td>blue increases first (repeatedly), then green (slowly)</td>
         <td></td>
       </tr>
     </table>
     <hr />
+    <table>
+      <tr>
+        <td>
     <textarea rows="24" cols="80" id="code-textarea" class="console">
 function (a, w, h) {
   for (i = 0; i &lt; h; i++) {
@@ -51,8 +54,75 @@ function (a, w, h) {
     <button onclick="window.animate = false; run();">Run</button>
     <button onclick="window.animate = true; run();">Animate</button>
     <div id="error" style="margin-bottom:20px;">
-      Displaying cache misses only, for now...<br>
     </div>
+      </td>
+      <td>
+<dl id="snippet-list">
+  <dt>Sequential access by rows</dt>
+  <dd>
+function (a, w, h) {
+  for (i = 0; i &lt; h; i++) {
+    for (j = 0; j &lt; w; j++) {
+      a.touch(i,j);
+    }
+  }
+}
+  </dd>
+<!-- ====================================================== -->
+  <dt>Sequential access by columns</dt>
+  <dd>
+function (a, w, h) {
+  for (j = 0; j &lt; w; j++) {
+    for (i = 0; i &lt; h; i++) {
+      a.touch(i,j);
+    }
+  }
+}
+  </dd>
+<!-- ====================================================== -->
+  <dt>Simple Matrix Transposition</dt>
+  <dd>
+function (a, w, h) {
+  for (i = 0; i &lt; h; i++) {
+    for (j = i+1; j &lt; w; j++) {
+      a.touch(i,j);
+      a.touch(j,i);
+    }
+  }
+}
+  </dd>
+<!-- ====================================================== -->
+  <dt>Cache-Oblivious Matrix Transposition</dt>
+  <dd>
+function (a, w, h) {
+  var transpose_base = function(a, x, y, w, h) {
+    for (i = x; i &lt; x+w; i++) {
+      for (j = y; j &lt; y+h; j++) {
+        if (j &gt;= i) continue; // when iterating over a block that
+              // straddles the diagonal, only swap the upper triangle
+        a.touch(i,j);
+        a.touch(j,i);
+      }
+    }
+  };
+  var transpose_block = function(a, x, y, w, h) {
+    if ( (x+w) &lt;= y ) return; // avoid blocks entirely below diagonal
+    if (w &lt;= 8 &amp;&amp; h &lt;= 8) { transpose_base(a, x, y, w, h); return; }
+    if (w &gt;= h) {
+      var mid = Math.floor(w/2);
+      transpose_block(a, x    , y,   mid, h);
+      transpose_block(a, x+mid, y, w-mid, h);
+    } else {
+      var mid = Math.floor(h/2);
+      transpose_block(a, x,     y, w,   mid);
+      transpose_block(a, x, y+mid, w, h-mid);
+    }
+  };
 
+  transpose_block(a, 0, 0, w, h);
+}
+  </dd>
+</ul>
+      </td>
   </body>
 </html>

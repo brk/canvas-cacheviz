@@ -1,5 +1,5 @@
 var cache_row_size = 64; // bytes
-var cache_num_rows = 32; // rows
+var cache_num_rows = 10; // rows
 var element_size = 4; // bytes
 
 // cache stores memory indices converted to logical row numbers
@@ -77,7 +77,7 @@ function cache_done() {
     },
     draw_oneshot: function() { while (this.can_step()) { this.step(); } },
     draw_animated: function() {
-      this.cache_anim_interval = setInterval('cache_renderer.animate_steps()', 15);
+      this.cache_anim_interval = setInterval('cache_renderer.animate_steps()', 5);
     },
     animate_steps: function() {
       if (this.can_step()) {

@@ -21,5 +21,14 @@ canvas {
 }
 
 .console {
-	font-family: monospace;
+  font-family: monospace;
+}
+
+#snippet-list dt {
+  font-weight: bold;  
+}
+
+#snippet-list dd {
+  font-family: monospace;
+  white-space: pre;
 }
