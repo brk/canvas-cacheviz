@@ -98,15 +98,15 @@ function (a, w, h) {
   var transpose_base = function(a, x, y, w, h) {
     for (i = x; i &lt; x+w; i++) {
       for (j = y; j &lt; y+h; j++) {
-        if (j &gt;= i) continue; // when iterating over a block that
-              // straddles the diagonal, only swap the upper triangle
+        if (j &gt;= i) continue; /* when iterating over a block that
+              straddles the diagonal, only swap the upper triangle */
         a.touch(i,j);
         a.touch(j,i);
       }
     }
   };
   var transpose_block = function(a, x, y, w, h) {
-    if ( (x+w) &lt;= y ) return; // avoid blocks entirely below diagonal
+    if ( (x+w) &lt;= y ) return; /* avoid blocks entirely below diagonal */
     if (w &lt;= 8 &amp;&amp; h &lt;= 8) { transpose_base(a, x, y, w, h); return; }
     if (w &gt;= h) {
       var mid = Math.floor(w/2);
