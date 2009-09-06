@@ -3,7 +3,7 @@ function store_touch(x, y) {
   store.hits.y.push(y);
 }
 
-function store_draw_next_miss() {
+function store_draw_next() {
   if (store_anim_i--) {
     var i = store.hits.x.length - store_anim_i - 1;
     store.context.fillRect(store.hits.y[i], store.hits.x[i], 1,1);
@@ -23,6 +23,6 @@ function store_done() {
     }
   } else {
     window.store_anim_i = i;
-    window.store_anim_interval = setInterval("store_draw_next_miss()", 15);
+    window.store_anim_interval = setInterval("store_draw_next()", 15);
   }
 }
