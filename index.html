@@ -32,9 +32,18 @@
                   height="200"
                   ></canvas>
         </td>
+        <td><p>TODO: <ul>
+          <li>jquery slider to control variable animation speeds</li>
+          <li>jQuery slider to scale views -- e.g. use 2 or 4 pixels instead of 1</li>
+          <li>On Chrome, at least, repeated runs can lead to de-synced animation... odd, but
+          mostly harmless</li>
+          <li>non-copy-paste UI for selecting snippets</li>
+        </ul>
+          </p>
+        </td>
       </tr>
       <tr>
-        <td>blue increases first (repeatedly), then green (slowly)</td>
+        <td>Memory touches are colored by time:<br> black at the start, white at the end</td>
         <td></td>
       </tr>
     </table>
@@ -69,7 +78,7 @@ function (a, w, h) {
 }
   </dd>
 <!-- ====================================================== -->
-  <dt>Sequential access by columns</dt>
+  <dt>// Sequential access by columns</dt>
   <dd>
 function (a, w, h) {
   for (j = 0; j &lt; w; j++) {
@@ -80,7 +89,7 @@ function (a, w, h) {
 }
   </dd>
 <!-- ====================================================== -->
-  <dt>Simple Matrix Transposition</dt>
+  <dt>// Simple Matrix Transposition</dt>
   <dd>
 function (a, w, h) {
   for (i = 0; i &lt; h; i++) {
@@ -92,7 +101,7 @@ function (a, w, h) {
 }
   </dd>
 <!-- ====================================================== -->
-  <dt>Cache-Oblivious Matrix Transposition</dt>
+  <dt>// Cache-Oblivious Matrix Transposition</dt>
   <dd>
 function (a, w, h) {
   var transpose_base = function(a, x, y, w, h) {

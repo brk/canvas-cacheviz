@@ -24,21 +24,12 @@ function make_store() {
   return store;
 }
 
-function main() {}
-
 function log(str) {
   $('#error').append(str);
   $('#error').append("<br>");
 }
 
-function f_impl(a,w,h) {
-  for (i = 0; i < h; i++) {
-    for (j = 0; j < w; j++) {
-      a.touch(i,j);
-    }
-  }
-  a.done();
-}
+var animationSpeed = 16; // TODO: hook up to jquery slider!
 
 function run() {
   window.cache = make_cache();
@@ -50,7 +41,6 @@ function run() {
   store.context.fillRect(0,0,store.canvas.width, store.canvas.height);
   
   var ftxt = $("#code-textarea")[0].value;
-  log(ftxt);
   eval("var f = " + ftxt);
 
   var a = {
@@ -62,11 +52,17 @@ function run() {
     done: function() {
       cache_done();
       store_done();
-      log("done");
     }
   };
+
+  // just in case...?
+  if (!window.animationSpeed) {
+    window.animationSpeed = 1;
+    log ('anim speeed not set');
+  } else {
+    log('anim speed = ' + animationSpeed);
+  }
   
-  log('pre');
   f(a, 200, 200);
   a.done();
   var m = cache.misses.x.length;

@@ -76,14 +76,16 @@ function cache_done() {
       }
     },
     draw_oneshot: function() { while (this.can_step()) { this.step(); } },
-    draw_animated: function() {
+    start_animation: function() {
       this.cache_anim_interval = setInterval('cache_renderer.animate_steps()', 5);
     },
-    animate_steps: function() {
-      if (this.can_step()) {
-        this.step();
-      } else {
-        this.stop_animation();
+    animate_steps: function() { // wrap this.step() and stop animation when done
+      for (var i = 0; i < window.animationSpeed; ++i) {
+        if (this.can_step()) {
+          this.step();
+        } else {
+          this.stop_animation();
+        }
       }
     },
     stop_animation: function() { clearInterval(this.cache_anim_interval); }
@@ -94,7 +96,7 @@ function cache_done() {
   cache.context.fillStyle = "rgb(200, 0, 0)";
 
   if (window.animate) {
-    cache_renderer.draw_animated();
+    cache_renderer.start_animation();
   } else {
     cache_renderer.draw_oneshot();
   }
