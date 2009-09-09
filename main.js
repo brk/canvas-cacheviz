@@ -77,4 +77,6 @@ function main() {
 
   // Select first snippet, whatever it is.
   $("#snippet-list .title")[0].click();
+
+  $("#snippet-list-header").after("<h3>(Click to Load Snippet)</h3>");
 }

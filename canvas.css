@@ -3,7 +3,7 @@ body {
   padding:0;
 }
 
-canvas {
+canvas, #snippet-list .title {
   -khtml-user-select:none;
   -moz-user-select:none;
 }
@@ -37,4 +37,12 @@ canvas {
 #snippet-list .title:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+#run-button, #animate-button {
+  font-size: 2em;
+}
+
+#instructions {
+  font-size: 1.5em;
 }

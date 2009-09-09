@@ -13,7 +13,12 @@
     <script type="text/javascript" src="main.js"></script>
   </head>
   <body onload="main();">
-
+    <h2>Instructions</h2>
+    <ol id="instructions">
+      <li>Load snippet in text area below</li>
+      <li>Click "Run" or "Animate" to see cache behavior</li>
+      <li>View cache statistics below text area</li>
+    </ol>
     <table>
       <tr>
         <td>Memory Touches</td>
@@ -50,6 +55,8 @@
     <table>
       <tr>
         <td>
+        <p>In the snippets below, <kbd>a.touch(i,j)</kbd> indicates array access
+        <kbd>a[i][j]</kbd>.</p>
     <textarea rows="24" cols="80" id="code-textarea" class="console">
 // Sequential access by rows
 function (a, w, h) {
@@ -60,12 +67,13 @@ function (a, w, h) {
   }
 }
     </textarea>
-    <button onclick="window.animate = false; run();">Run</button>
-    <button onclick="window.animate = true; run();">Animate</button>
+    <button id="run-button"     onclick="window.animate = false; run();">Run</button>
+    <button id="animate-button" onclick="window.animate = true; run();">Animate</button>
     <div id="error" style="margin-bottom:20px;">
     </div>
       </td>
       <td>
+        <h2 id="snippet-list-header">Available Snippets:</h2>
 <ul id="snippet-list">
   <li><input type="button" class="title" value="// Sequential access by rows"></input>
   <pre>
