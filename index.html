@@ -13,67 +13,10 @@
     <script type="text/javascript" src="main.js"></script>
   </head>
   <body onload="main();">
-    <h2>Instructions</h2>
-    <ol id="instructions">
-      <li>Load snippet in text area below</li>
-      <li>Click "Run" or "Animate" to see cache behavior</li>
-      <li>View cache statistics below text area</li>
-    </ol>
-    <table>
-      <tr>
-        <td>Memory Touches</td>
-        <td>Cache Hits (green) / Misses (red)</td>
-      </tr>
-      <tr>
-        <td>
-          <canvas id="store-canvas"
-                  width="200"
-                  height="200"
-                  ></canvas>
-        </td>
-        <td>
-          <canvas id="cache-canvas"
-                  width="200"
-                  height="200"
-                  ></canvas>
-        </td>
-        <td><p>TODO: <ul>
-          <li>jquery slider to control variable animation speeds</li>
-          <li>jQuery slider to scale views -- e.g. use 2 or 4 pixels instead of 1</li>
-          <li>On Chrome, at least, repeated runs can lead to de-synced animation... odd, but
-          mostly harmless</li>
-        </ul>
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>Memory touches are colored by time:<br> black at the start, white at the end</td>
-        <td></td>
-      </tr>
-    </table>
-    <hr />
-    <table>
-      <tr>
-        <td>
-        <p>In the snippets below, <kbd>a.touch(i,j)</kbd> indicates array access
-        <kbd>a[i][j]</kbd>.</p>
-    <textarea rows="24" cols="80" id="code-textarea" class="console">
-// Sequential access by rows
-function (a, w, h) {
-  for (i = 0; i &lt; h; i++) {
-    for (j = 0; j &lt; w; j++) {
-      a.touch(i,j);
-    }
-  }
-}
-    </textarea>
-    <button id="run-button"     onclick="window.animate = false; run();">Run</button>
-    <button id="animate-button" onclick="window.animate = true; run();">Animate</button>
-    <div id="error" style="margin-bottom:20px;">
-    </div>
-      </td>
-      <td>
-        <h2 id="snippet-list-header">Available Snippets:</h2>
+
+            <span class="step-num">1: </span>
+            <span class="step-desc">Choose From Available Snippets:</span>
+        <h3>(click to load snippet)</h3>
 <ul id="snippet-list">
   <li><input type="button" class="title" value="// Sequential access by rows"></input>
   <pre>
@@ -117,16 +60,20 @@ function (a, w, h) {
   var transpose_base = function(a, x, y, w, h) {
     for (i = x; i &lt; x+w; i++) {
       for (j = y; j &lt; y+h; j++) {
-        if (j &gt;= i) continue; /* when iterating over a block that
-              strapreles the diagonal, only swap the upper triangle */
+        if (j &gt;= i) continue;
+        /* when iterating over a block that straddles
+        the diagonal, only swap the upper triangle */
         a.touch(i,j);
         a.touch(j,i);
       }
     }
   };
   var transpose_block = function(a, x, y, w, h) {
-    if ( (x+w) &lt;= y ) return; /* avoid blocks entirely below diagonal */
-    if (w &lt;= 8 &amp;&amp; h &lt;= 8) { transpose_base(a, x, y, w, h); return; }
+    /* avoid blocks entirely below diagonal */
+    if ( (x+w) &lt;= y ) return;
+    if (w &lt;= 8 &amp;&amp; h &lt;= 8) {
+      transpose_base(a, x, y, w, h); return;
+    }
     if (w &gt;= h) {
       var mid = Math.floor(w/2);
       transpose_block(a, x    , y,   mid, h);
@@ -142,6 +89,69 @@ function (a, w, h) {
 }
   </pre></li>
 </ul>
-      </td>
+
+    <p>In the code below, <kbd>a.touch(i,j)</kbd> indicates array access
+    <kbd>a[i][j]</kbd>.</p>
+    <textarea rows="14" cols="60" id="code-textarea" class="console">
+// Sequential access by rows
+function (a, w, h) {
+  for (i = 0; i &lt; h; i++) {
+    for (j = 0; j &lt; w; j++) {
+      a.touch(i,j);
+    }
+  }
+}
+    </textarea>
+    <br>
+
+    <div id="control-buttons">
+      <span class="step-num">2: </span>
+      <span class="step-desc">Start Visualizing!</span>
+      <br>
+      <button id="run-button"     onclick="window.animate = false; run();">Run</button>
+      <button id="animate-button" onclick="window.animate = true; run();">Animate</button>
+    </div>
+    <br>
+
+    <span class="step-num">3: </span>
+    <span class="step-desc">See Results!</span>
+    <table>
+      <tr>
+        <td>Memory Touches</td>
+        <td>Cache Hits (green) / Misses (red)</td>
+        <td>TODO</td>
+      </tr>
+      <tr>
+        <td>
+          <canvas id="store-canvas"
+                  width="200"
+                  height="200"
+                  ></canvas>
+        </td>
+        <td>
+          <canvas id="cache-canvas"
+                  width="200"
+                  height="200"
+                  ></canvas>
+        </td>
+        <td>
+          <ul>
+            <li>jquery slider to control variable animation speeds</li>
+            <li>jQuery slider to scale views -- e.g. use 2 or 4 pixels instead of 1</li>
+            <li>On Chrome, at least, repeated runs can lead to de-synced animation... odd, but
+            mostly harmless</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>Memory touches are colored by time:<br> black at the start, white at the end</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <hr>
+    <div id="error" style="margin-bottom:20px;">
+    </div>
   </body>
 </html>

@@ -46,3 +46,13 @@ canvas, #snippet-list .title {
 #instructions {
   font-size: 1.5em;
 }
+
+.step-num {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.step-desc {
+  font-size: 2em;
+  font-weight: bold;
+}
