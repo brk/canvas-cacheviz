@@ -55,19 +55,26 @@ function run() {
     }
   };
 
-  // just in case...?
-  if (!window.animationSpeed) {
-    window.animationSpeed = 1;
-    log ('anim speeed not set');
-  } else {
-    log('anim speed = ' + animationSpeed);
-  }
-  
   f(a, 200, 200);
   a.done();
   var m = cache.misses.x.length;
   var h = cache.hits.x.length;
+  log(ftxt.split("\n")[0]);
   log("cache misses: " + m + " ("+(100*(m/(m+h)))+"%)");
   log("cache hits: "   + h + " ("+(100*(h/(m+h)))+"%)");
   log("total: " + (m+h) + " memory accesses");
+  log("------------------------------------");
+}
+
+function main() {
+  // Make it so clicking the title of a snippet loads the snippet text
+  $("#snippet-list .title").bind("click", function (e) {
+      $("#code-textarea")[0].value = $(this).attr("value") + "\n" + $(this).next().text();
+  });
+
+  // Hide all snippets to start
+  $("#snippet-list pre").hide();
+
+  // Select first snippet, whatever it is.
+  $("#snippet-list .title")[0].click();
 }

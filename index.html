@@ -52,6 +52,7 @@
       <tr>
         <td>
     <textarea rows="24" cols="80" id="code-textarea" class="console">
+// Sequential access by rows
 function (a, w, h) {
   for (i = 0; i &lt; h; i++) {
     for (j = 0; j &lt; w; j++) {
@@ -66,9 +67,9 @@ function (a, w, h) {
     </div>
       </td>
       <td>
-<dl id="snippet-list">
-  <dt>Sequential access by rows</dt>
-  <dd>
+<ul id="snippet-list">
+  <li><input type="button" class="title" value="// Sequential access by rows"></input>
+  <pre>
 function (a, w, h) {
   for (i = 0; i &lt; h; i++) {
     for (j = 0; j &lt; w; j++) {
@@ -76,10 +77,10 @@ function (a, w, h) {
     }
   }
 }
-  </dd>
+  </pre></li>
 <!-- ====================================================== -->
-  <dt>// Sequential access by columns</dt>
-  <dd>
+<li><input type="button" class="title" value="// Sequential access by columns"></input>
+  <pre>
 function (a, w, h) {
   for (j = 0; j &lt; w; j++) {
     for (i = 0; i &lt; h; i++) {
@@ -87,10 +88,11 @@ function (a, w, h) {
     }
   }
 }
-  </dd>
+  </pre>
+  </pre></li>
 <!-- ====================================================== -->
-  <dt>// Simple Matrix Transposition</dt>
-  <dd>
+  <li><input type="button" class="title" value="// Simple Matrix Transposition"></input>
+  <pre>
 function (a, w, h) {
   for (i = 0; i &lt; h; i++) {
     for (j = i+1; j &lt; w; j++) {
@@ -99,16 +101,17 @@ function (a, w, h) {
     }
   }
 }
-  </dd>
+  </pre>
+  </pre></li>
 <!-- ====================================================== -->
-  <dt>// Cache-Oblivious Matrix Transposition</dt>
-  <dd>
+<li><input type="button" class="title" value="// Cache-Oblivious Matrix Transposition"></input>
+  <pre>
 function (a, w, h) {
   var transpose_base = function(a, x, y, w, h) {
     for (i = x; i &lt; x+w; i++) {
       for (j = y; j &lt; y+h; j++) {
         if (j &gt;= i) continue; /* when iterating over a block that
-              straddles the diagonal, only swap the upper triangle */
+              strapreles the diagonal, only swap the upper triangle */
         a.touch(i,j);
         a.touch(j,i);
       }
@@ -130,7 +133,7 @@ function (a, w, h) {
 
   transpose_block(a, 0, 0, w, h);
 }
-  </dd>
+  </pre></li>
 </ul>
       </td>
   </body>

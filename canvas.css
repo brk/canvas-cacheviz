@@ -24,11 +24,17 @@ canvas {
   font-family: monospace;
 }
 
-#snippet-list dt {
-  font-weight: bold;  
+#snippet-list {
+  padding: 1em;
 }
 
-#snippet-list dd {
-  font-family: monospace;
-  white-space: pre;
+#snippet-list .title {
+  font-weight: bold;  
+  background-color: #eef;
+  color: blue;
+}
+
+#snippet-list .title:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
