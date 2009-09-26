@@ -8,9 +8,16 @@ function make_cache() {
     cache.rows[i] = 0; 
   }
   cache.replace_row = 0;
-  cache.misses = { x: [], y: [] };
+  cache.misses = { x: [], y: [], type: [] };
   cache.hits   = { x: [], y: [] };
   cache.was_hit = [];
+
+  cache.touched = [];
+  cache.touched.length = cache_num_rows;
+  for(var i = 0; i < cache.touched.length; ++i) {
+    cache.touched[i] = false; 
+  }
+
   return cache;
 }
 

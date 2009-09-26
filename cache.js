@@ -26,6 +26,11 @@ function cache_contains(e) {
   return false;
 }
 
+// Types of cache misses
+const TYPE_COLD = 0;
+const TYPE_CAPACITY = 1;
+const TYPE_CONFLICT = 2;
+
 // Touch a given element index (at x, y in array)
 // Produces either cache hit or cache miss
 function cache_touch(e, x, y) {
@@ -37,6 +42,13 @@ function cache_touch(e, x, y) {
   //  log('cache miss, pullin row ' + index_to_row(e*element_size) + '; ' + x + ', ' +y);
     cache.misses.x.push(x);
     cache.misses.y.push(y);
+    var miss_type = TYPE_COLD;
+    if (cache.touched[i]) {
+      miss_type = TYPE_CONFLICT;
+    }
+    cache.touched[i] = true;
+
+    cache.misses.type.push(miss_type);
     cache.was_hit.push(false);
   }
 }
@@ -57,10 +69,11 @@ function cache_done() {
   window.cache_renderer = {
     reset: function() {
       this.i = 0; // memory touch index
-      this.m = 0;
-      this.h = 0;
+      this.m = 0; // miss index
+      this.h = 0; // hit index
       this.touches = cache.misses.x.length + cache.hits.x.length;
       this.missStyle = "rgb(200, 0, 0)";
+      this.compulsoryMissStyle = "rgb(0, 0, 200)";
       this.hitStyle = "rgb(220, 250, 220)"
     },
     can_step: function() { return this.i < this.touches; },
@@ -71,7 +84,14 @@ function cache_done() {
         cache.context.fillStyle = this.hitStyle;
         cache_draw_hit(this.h++);
       } else {
-        cache.context.fillStyle = this.missStyle;
+        var miss_type = cache.misses.type[this.m];
+        if (miss_type == TYPE_CONFLICT) {
+          cache.context.fillStyle = this.missStyle;
+        } else if (miss_type == TYPE_CAPACITY) {
+          cache.context.fillStyle = this.missStyle;
+        } else {
+          cache.context.fillStyle = this.compulsoryMissStyle;
+        }
         cache_draw_miss(this.m++);
       }
     },
