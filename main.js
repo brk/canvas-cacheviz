@@ -38,7 +38,12 @@ function log(str) {
 
 var animationSpeed = 16; // TODO: hook up to jquery slider!
 
-function run() {
+function get_memory_size() {
+  var elt = document.getElementById("store-canvas");
+  return { x: elt.width, y: elt.height };
+}
+
+function reset() {
   window.cache = make_cache();
   cache.context.fillStyle = "rgb(240, 240, 240)";
   cache.context.fillRect(0,0,cache.canvas.width, cache.canvas.height);
@@ -46,6 +51,23 @@ function run() {
   window.store = make_store();
   store.context.fillStyle = "rgb(240, 240, 240)";
   store.context.fillRect(0,0,store.canvas.width, store.canvas.height);
+}
+
+function format_with_commas(n) {
+  var n_str = "" + n;
+  var rv = "";
+  for (var i = n_str.length - 1, delim = 0; i >= 0; --i) {
+    rv += n_str[i];
+    if (delim++ == 2 && i != 0) {
+      delim = 0;
+      rv += ",";
+    }
+  }
+  return rv.split("").reverse().join("");
+}
+
+function run() {
+  reset();
   
   var ftxt = $("#code-textarea")[0].value;
   eval("var f = " + ftxt);
@@ -62,14 +84,18 @@ function run() {
     }
   };
 
-  f(a, 200, 200);
+  var mem_size = get_memory_size();
+  f(a, mem_size.x, mem_size.y);
   a.done();
   var m = cache.misses.x.length;
   var h = cache.hits.x.length;
   log(ftxt.split("\n")[0]);
+
   log("cache misses: " + m + " ("+(100*(m/(m+h)))+"%)");
   log("cache hits: "   + h + " ("+(100*(h/(m+h)))+"%)");
   log("total: " + (m+h) + " memory accesses");
+  var estimated_cycles = m * 40 + 2 * h;
+  log("estimated memory time (40 cycles/miss, 2/hit) = " + format_with_commas(estimated_cycles) + " cycles"); 
   log("------------------------------------");
 }
 

@@ -3,12 +3,33 @@ var cache_num_rows = 10; // rows
 var element_size = 4; // bytes
 
 // cache stores memory indices converted to logical row numbers
-function index_to_row(i) {
-  return Math.floor(i / cache_row_size);
+function index_to_row(i) { return Math.floor(i / cache_row_size); }
+function element_cache_line(e) { return index_to_row(e * element_size); }
+
+function draw_cache_lines() {
+  reset();
+  var sz = get_memory_size();
+  var e = 0;
+  var styles = [
+    "rgb(100, 0, 0)"
+    ,"rgb(0, 100, 0)"
+    ,"rgb(0, 0, 100)"
+    ,"rgb(100, 100, 100)"
+    ,"rgb(000, 000, 000)"
+    ,"rgb(000, 100, 100)"
+    ,"rgb(100, 100, 000)"
+  ];
+  for (var i = 0; i < sz.x; ++i) {
+    for (var j = 0; j < sz.y; ++j) {
+      var r = element_cache_line(e++);
+      cache.context.fillStyle = styles[ r % styles.length ];
+      cache_draw_touch(i, j);
+    }
+  }
 }
 
 function cache_contains(e) {
-  var row = index_to_row(e * element_size);
+  var row = element_cache_line(e);
   var i = cache.rows.length;
   while (i--) {
     if (cache.rows[i] == row) {
@@ -43,26 +64,32 @@ function cache_touch(e, x, y) {
     cache.misses.x.push(x);
     cache.misses.y.push(y);
     var miss_type = TYPE_COLD;
-    if (cache.touched[i]) {
-      miss_type = TYPE_CONFLICT;
+    if (x == 0 || x == 199) miss_type = TYPE_COLD;
+    var r = element_cache_line(e);
+    if (cache.touched[r]) {
+      miss_type = TYPE_CAPACITY;
     }
-    cache.touched[i] = true;
+    cache.touched[r] = true;
 
     cache.misses.type.push(miss_type);
     cache.was_hit.push(false);
   }
 }
 
+function cache_draw_touch(x, y) {
+  cache.context.fillRect(y, x, 1, 1);
+}
+
 function cache_draw_miss(m) {
   var y = cache.misses.y[m];
   var x = cache.misses.x[m];
-  cache.context.fillRect(y, x, 1,1);
+  cache_draw_touch(x, y);
 }
 
 function cache_draw_hit(h) {
   var y = cache.hits.y[h];
   var x = cache.hits.x[h];
-  cache.context.fillRect(y, x, 1,1);
+  cache_draw_touch(x, y);
 }
 
 function cache_done() {
